@@ -9,6 +9,7 @@
     "jobcan": "bin/jobcan.js"
   },
   "dependencies": {
+    "chalk": "^3.0.0",
     "figlet": "^1.2.4"
   }
 }
