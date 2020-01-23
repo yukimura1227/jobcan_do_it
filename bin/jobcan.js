@@ -1,5 +1,9 @@
 #!/usr/bin/env node
 'use strict';
+
+const figlet = require("figlet");
 const args = process.argv.slice(2);
 
-console.log(args);
+figlet(args, function(err, data) {
+  console.log(data);
+});
