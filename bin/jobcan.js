@@ -3,14 +3,16 @@
 
 const figlet = require("figlet");
 const chalk = require("chalk");
-const cli = require('cac')()
+const program = require('commander')
 const args = process.argv.slice(2);
 
-cli.command('credentials').action((options) => {
-  figlet(options, function(err, data) {
-    console.log(chalk.blue.bgWhite.bold(data));
-  });
-})
+program
+  .version('1.0.0', '-v, --version')
 
-cli.help()
-cli.parse()
+program.command('credentials')
+  .description('manage credentials')
+  .action(() =>
+    console.log('TODO: show credentials')
+  )
+
+program.parse(process.argv)
