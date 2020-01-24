@@ -6,14 +6,18 @@ const chalk = require("chalk");
 const program = require('commander')
 const args = process.argv.slice(2);
 
-figlet('  JobCanDoIt ! !  ', function(err, data) {
-  console.log(chalk.white.bgMagenta.bold(data));
-});
 program
   .version('1.0.0', '-v, --version')
-
-program
   .command('start', 'work start(and same end)')
   .alias('end')
   .command('credentials', 'manage credentials')
-  .parse(process.argv)
+
+program.exitOverride();
+
+try {
+  figlet('  JobCanDoIt ! !  ', function(err, data) {
+    console.log(chalk.white.bgMagenta.bold(data));
+  });
+  program.parse(process.argv);
+} catch (err) {
+}
