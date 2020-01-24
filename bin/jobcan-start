@@ -1,0 +1,49 @@
+#!/usr/bin/env node
+
+const program   = require('commander')
+const fs        = require('fs')
+const webdriver = require('selenium-webdriver');
+const { Builder, By, until } = webdriver;
+
+program
+  .parse(process.argv);
+
+(async () => {
+  const home_dir = process.env[process.platform == "win32" ? "USERPROFILE" : "HOME"];
+  const credential_dir = `${home_dir}/.jobcan_do_it`
+  const credential_filepath = `${credential_dir}/credentials.json`
+  var credential_data = {};
+  if(fs.existsSync(credential_filepath)) {
+    let tmp_credential_data = fs.readFileSync(credential_filepath, 'utf-8')
+    credential_data = JSON.parse(tmp_credential_data)
+  }
+
+  const capabilities = webdriver.Capabilities.chrome();
+  capabilities.set('chromeOptions', {
+      args: [
+          //'--headless',
+          '--no-sandbox',
+          '--disable-gpu',
+          `--window-size=1980,1200`
+          // other chrome options
+      ]
+  });
+  const driver = await new Builder().withCapabilities(capabilities).build();
+
+  await driver.get('https://id.jobcan.jp/users/sign_in');
+  await driver.findElement(By.id("user_email")).sendKeys(credential_data.email);
+  await driver.findElement(By.id("user_password")).sendKeys(credential_data.password);
+  await driver.findElement(By.className("form__login")).click();
+
+  await driver.wait(until.titleIs('アカウント情報 | ジョブカン共通ID管理画面'), 10000);
+  await driver.findElement(By.className('jbc-app-link')).click();
+
+  handle_array = await driver.getAllWindowHandles();
+  await driver.switchTo().window(handle_array[1]);
+  await driver.wait(until.titleMatches(/MyPage/),
+    10000);
+  await driver.findElement(By.id("adit-button-push"))//.click();
+  await driver.close()
+  await driver.switchTo().window(handle_array[0]);
+  await driver.close()
+})();

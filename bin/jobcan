@@ -13,5 +13,7 @@ program
   .version('1.0.0', '-v, --version')
 
 program
+  .command('start', 'work start(and same end)')
+  .alias('end')
   .command('credentials', 'manage credentials')
   .parse(process.argv)
