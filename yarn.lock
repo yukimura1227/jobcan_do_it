@@ -15,6 +15,11 @@ ansi-styles@^4.1.0:
     "@types/color-name" "^1.1.1"
     color-convert "^2.0.1"
 
+cac@^6.5.5:
+  version "6.5.5"
+  resolved "https://registry.yarnpkg.com/cac/-/cac-6.5.5.tgz#fb7720ecb95988d1425e5b4a2db41f6c5cd6e672"
+  integrity sha512-DF1HgrY2BkyrY1+g3Fwk/HFUcycI1PHpV3hCCxHM9qAPe+nrIOKFbzej2uiWdAjw4ry5eSYVWR4MLQYp2nV5YA==
+
 chalk@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-3.0.0.tgz#3f73c2bf526591f574cc492c51e2456349f844e4"

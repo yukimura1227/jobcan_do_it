@@ -3,8 +3,14 @@
 
 const figlet = require("figlet");
 const chalk = require("chalk");
+const cli = require('cac')()
 const args = process.argv.slice(2);
 
-figlet(args, function(err, data) {
-  console.log(chalk.blue.bgRed.bold(data));
-});
+cli.command('credentials').action((options) => {
+  figlet(options, function(err, data) {
+    console.log(chalk.blue.bgWhite.bold(data));
+  });
+})
+
+cli.help()
+cli.parse()
