@@ -19,7 +19,7 @@ program
   }
 
   const capabilities = webdriver.Capabilities.chrome();
-  capabilities.set('chromeOptions', {
+  capabilities.set('goog:chromeOptions', {
       args: [
           //'--headless',
           '--no-sandbox',
