@@ -6,6 +6,7 @@ const webdriver = require('selenium-webdriver');
 const { Builder, By, until } = webdriver;
 
 program
+  .option('-d, --debug', 'disable headless mode')
   .parse(process.argv);
 
 (async () => {
@@ -19,14 +20,13 @@ program
   }
 
   const capabilities = webdriver.Capabilities.chrome();
+  let chromeOptions  = []
+  if (!program.debug) chromeOptions.push('--headless')
+  chromeOptions.push('--no-sandbox')
+  chromeOptions.push('--disable-gpu')
+  chromeOptions.push('--window-size=1980,1200')
   capabilities.set('goog:chromeOptions', {
-      args: [
-          //'--headless',
-          '--no-sandbox',
-          '--disable-gpu',
-          `--window-size=1980,1200`
-          // other chrome options
-      ]
+    'args': chromeOptions
   });
   const driver = await new Builder().withCapabilities(capabilities).build();
 
