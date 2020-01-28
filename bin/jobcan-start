@@ -7,6 +7,7 @@ const { Builder, By, until } = webdriver;
 
 program
   .option('-d, --debug', 'disable headless mode')
+  .option('--dry-run', 'dry run')
   .parse(process.argv);
 
 (async () => {
@@ -21,7 +22,7 @@ program
 
   const capabilities = webdriver.Capabilities.chrome();
   let chromeOptions  = []
-  if (!program.debug) chromeOptions.push('--headless')
+  if (!program.debug && !program.dryRun) chromeOptions.push('--headless')
   chromeOptions.push('--no-sandbox')
   chromeOptions.push('--disable-gpu')
   chromeOptions.push('--window-size=1980,1200')
@@ -48,7 +49,11 @@ program
   await driver.wait(until.titleMatches(/MyPage/),
     10000);
   await driver.wait(until.elementsLocated(By.id('adit-button-push')), 10000);
-  await driver.findElement(By.id("adit-button-push")).click();
-  await sleep(1000);
+  if (program.dryRun) {
+    await sleep(5000);
+  } else {
+    await driver.findElement(By.id("adit-button-push")).click();
+    await sleep(3000);
+  }
   await driver.quit()
 })();

@@ -22,3 +22,14 @@ jobcan start
 jobcan end
 ```
 
+```bash
+# you can debug with -d (or --debug) option
+jobcan start -d
+# then excecute browser without headless mode
+```
+
+```bash
+# you can dry run with --dry-run option
+jobcan start --dry-run
+# then excecute browser without headless mode and not working start actually
+```
