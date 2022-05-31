@@ -38,10 +38,6 @@ program
 
   driver.wait(until.elementsLocated(By.id('jbc-app-links')), 10000);
   function sleep(time) { return new Promise((resolve, reject) => { setTimeout(() => { resolve(); }, time); }); }
-  await sleep(1000);
-  // NOTE: 本当はsleepではなく、以下のようにしたい
-  // const documentInitialised = () => { driver.executeScript('return new Promise((resolve, reject) => { setTimeout(() => { resolve(); }, 3000); });'); }
-  // await driver.wait(() => { documentInitialised() }, 10000);
   const header_menu_links = await driver.findElements(By.className('jbc-app-link'));
   const attendance_link = await header_menu_links[1]; // NOTE: 勤怠リンクが２つあり、ひとつめは表示されておらずクリックできないので２つ目を取得している
   await attendance_link.click();
