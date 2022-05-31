@@ -42,7 +42,9 @@ program
   // NOTE: 本当はsleepではなく、以下のようにしたい
   // const documentInitialised = () => { driver.executeScript('return new Promise((resolve, reject) => { setTimeout(() => { resolve(); }, 3000); });'); }
   // await driver.wait(() => { documentInitialised() }, 10000);
-  await driver.findElement(By.className('jbc-app-link')).click();
+  const header_menu_links = await driver.findElements(By.className('jbc-app-link'));
+  const attendance_link = await header_menu_links[1]; // NOTE: 勤怠リンクが２つあり、ひとつめは表示されておらずクリックできないので２つ目を取得している
+  await attendance_link.click();
 
   handle_array = await driver.getAllWindowHandles();
   await driver.switchTo().window(handle_array[1]);
