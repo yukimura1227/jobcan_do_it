@@ -15,14 +15,14 @@ const options = program.opts();
   const home_dir = process.env[process.platform == "win32" ? "USERPROFILE" : "HOME"];
   const credential_dir = `${home_dir}/.jobcan_do_it`
   const credential_filepath = `${credential_dir}/credentials.json`
-  var credential_data = {};
+  let credential_data = {};
   if(fs.existsSync(credential_filepath)) {
-    let tmp_credential_data = fs.readFileSync(credential_filepath, 'utf-8')
+    const tmp_credential_data = fs.readFileSync(credential_filepath, 'utf-8');
     credential_data = JSON.parse(tmp_credential_data)
   }
 
   const capabilities = webdriver.Capabilities.chrome();
-  let chromeOptions  = []
+  const chromeOptions = [];
   if (!options.debug && !options.dryRun) chromeOptions.push('--headless')
   chromeOptions.push('--no-sandbox')
   chromeOptions.push('--disable-gpu')
@@ -43,7 +43,7 @@ const options = program.opts();
   const attendance_link = await header_menu_links[1]; // NOTE: 勤怠リンクが２つあり、ひとつめは表示されておらずクリックできないので２つ目を取得している
   await attendance_link.click();
 
-  handle_array = await driver.getAllWindowHandles();
+  const handle_array = await driver.getAllWindowHandles();
   await driver.switchTo().window(handle_array[1]);
   await driver.wait(until.titleMatches(/MyPage/),
     10000);
