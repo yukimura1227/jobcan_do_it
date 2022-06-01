@@ -10,6 +10,7 @@ program
   .option('--dry-run', 'dry run')
   .parse(process.argv);
 
+const options = program.opts();
 (async () => {
   const home_dir = process.env[process.platform == "win32" ? "USERPROFILE" : "HOME"];
   const credential_dir = `${home_dir}/.jobcan_do_it`
@@ -22,7 +23,7 @@ program
 
   const capabilities = webdriver.Capabilities.chrome();
   let chromeOptions  = []
-  if (!program.debug && !program.dryRun) chromeOptions.push('--headless')
+  if (!options.debug && !options.dryRun) chromeOptions.push('--headless')
   chromeOptions.push('--no-sandbox')
   chromeOptions.push('--disable-gpu')
   chromeOptions.push('--window-size=1980,1200')
@@ -47,7 +48,7 @@ program
   await driver.wait(until.titleMatches(/MyPage/),
     10000);
   await driver.wait(until.elementsLocated(By.id('adit-button-push')), 10000);
-  if (program.dryRun) {
+  if (options.dryRun) {
     await sleep(5000);
   } else {
     await driver.findElement(By.id("adit-button-push")).click();
