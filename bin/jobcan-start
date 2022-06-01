@@ -32,11 +32,10 @@ const options = program.opts();
   });
   const driver = await new Builder().withCapabilities(capabilities).build();
 
-  await driver.get('https://ssl.jobcan.jp/login/pc-employee-global?lang_code=ja');
-  await driver.findElement(By.id("client_id")).sendKeys(credential_data.company_id);
-  await driver.findElement(By.id("email")).sendKeys(credential_data.email);
-  await driver.findElement(By.id("password")).sendKeys(credential_data.password);
-  await driver.findElement(By.className("btn btn-block btn-info")).click(); // 気持ちよくはないが現状一意なクラス
+  await driver.get('https://id.jobcan.jp/users/sign_in');
+  await driver.findElement(By.id("user_email")).sendKeys(credential_data.email);
+  await driver.findElement(By.id("user_password")).sendKeys(credential_data.password);
+  await driver.findElement(By.className("form__login")).click();
 
   function sleep(time) { return new Promise((resolve, reject) => { setTimeout(() => { resolve(); }, time); }); }
 
