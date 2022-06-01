@@ -32,21 +32,22 @@ const options = program.opts();
   });
   const driver = await new Builder().withCapabilities(capabilities).build();
 
-  await driver.get('https://id.jobcan.jp/users/sign_in');
-  await driver.findElement(By.id("user_email")).sendKeys(credential_data.email);
-  await driver.findElement(By.id("user_password")).sendKeys(credential_data.password);
-  await driver.findElement(By.className("form__login")).click();
+  await driver.get('https://ssl.jobcan.jp/login/pc-employee-global?lang_code=ja');
+  await driver.findElement(By.id("client_id")).sendKeys(credential_data.company_id);
+  await driver.findElement(By.id("email")).sendKeys(credential_data.email);
+  await driver.findElement(By.id("password")).sendKeys(credential_data.password);
+  await driver.findElement(By.className("btn btn-block btn-info")).click(); // 気持ちよくはないが現状一意なクラス
 
-  driver.wait(until.elementsLocated(By.id('jbc-app-links')), 10000);
   function sleep(time) { return new Promise((resolve, reject) => { setTimeout(() => { resolve(); }, time); }); }
+
   const header_menu_links = await driver.findElements(By.className('jbc-app-link'));
   const attendance_link = await header_menu_links[1]; // NOTE: 勤怠リンクが２つあり、ひとつめは表示されておらずクリックできないので２つ目を取得している
   await attendance_link.click();
 
   const handle_array = await driver.getAllWindowHandles();
   await driver.switchTo().window(handle_array[1]);
-  await driver.wait(until.titleMatches(/MyPage/),
-    10000);
+  await driver.wait(until.titleMatches(/MyPage/), 10000);
+
   await driver.wait(until.elementsLocated(By.id('adit-button-push')), 10000);
   if (options.dryRun) {
     await sleep(5000);
